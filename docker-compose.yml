@@ -1,0 +1,25 @@
+services:
+  slurper:
+    image: ghcr.io/skylite-fs/skylite-slurper
+    restart: always
+    ports:
+      - "8024:8000"
+    environment:
+      - SKYLITE_DJANGO_ALLOWED_HOSTS=slurper.skylitefly.com,localhost,127.0.0.1
+      - SKYLITE_CSRF_TRUSTED_BASE_DOMAIN=skylitefly.com
+      - SKYLITE_REDIS_DEFAULT_LOCATION=redis://redis:6379/0
+      - SKYLITE_REDIS_DEFAULT_PASSWORD=
+      - SKYLITE_REDIS_DEFAULT_KEY_PREFIX=slurper
+      - SKYLITE_SLURPER_WHAZZUP_URL=https://fsddata.skylitefly.com/whazzup.json
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:7-alpine
+    restart: always
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes --maxmemory 128mb --maxmemory-policy allkeys-lru
+
+volumes:
+  redis_data:
