@@ -1,6 +1,6 @@
 services:
   slurper:
-    image: ghcr.io/skylite-fs/skylite-slurper
+    image: crpi-a20te69e34l8yeun.ap-southeast-1.personal.cr.aliyuncs.com/skylite/skylite-slurper
     restart: always
     ports:
       - "8024:8000"
